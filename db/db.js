@@ -1,11 +1,19 @@
 import pg from "pg";
+import dotenv from "dotenv";
 
-const client = new pg.Client({
-  host: "localhost",
-  port: 5432,
-  database: "stock_market_db",
-  user: "postgres",
-  password: "127623",
+dotenv.config();
+
+const client = new pg.Pool({
+  connectionString: process.env.POSTGRES_URL,
+});
+
+// connection to db
+client.connect((err) => {
+  if (err) {
+    console.error("connection error", err.stack);
+  } else {
+    console.log("db connected");
+  }
 });
 
 export default client;
